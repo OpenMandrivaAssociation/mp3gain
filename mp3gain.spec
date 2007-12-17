@@ -17,7 +17,6 @@ Source2:	README.method
 Patch0:		mp3gain_tempfile_default.patch.bz2
 Patch1:		mp3gain_exit.patch.bz2
 Patch2:		mp3gain_cflags.patch.bz2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 	
 
 %description
