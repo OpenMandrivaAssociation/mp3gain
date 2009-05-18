@@ -1,5 +1,5 @@
 %define name mp3gain
-%define release %mkrel 3
+%define release %mkrel 4
 %define version 1.4.6
 %define tarball_version 1_4_6
 
@@ -17,6 +17,7 @@ Source2:	README.method
 Patch0:		mp3gain_tempfile_default.patch.bz2
 Patch1:		mp3gain_exit.patch.bz2
 Patch2:		mp3gain_cflags.patch.bz2
+Patch3:		mp3gain-1.4.6-fix-str-fmt.patch.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 	
 
@@ -35,6 +36,7 @@ and re-encoding.
 %patch0 -p1 -b .tempfile
 %patch1 -p1 -b .exit
 %patch2 -p1 -b .cflags
+%patch3 -p1 -b .strfmt
 install -p -m 644 %{SOURCE2} .
 %{__sed} -i 's/\r//' lgpl.txt
 
