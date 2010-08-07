@@ -9,7 +9,7 @@ Release:	%release
 Summary:	Lossless MP3 volume adjustment tool
 
 Group:		Sound
-License:	LGPL
+License:	LGPLv2+
 URL:		http://mp3gain.sourceforge.net
 Source0:	http://osdn.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{tarball_version}-src.zip
 Source1:	%{name}.1.bz2
