@@ -1,7 +1,7 @@
 %define name mp3gain
-%define release %mkrel 4
-%define version 1.4.6
-%define tarball_version 1_4_6
+%define release %mkrel 1
+%define version 1.5.2
+%define tarball_version 1_5_2_r2
 
 Name:		%name
 Version:	%version
@@ -11,13 +11,11 @@ Summary:	Lossless MP3 volume adjustment tool
 Group:		Sound
 License:	LGPL
 URL:		http://mp3gain.sourceforge.net
-Source0:	http://osdn.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{tarball_version}-src.tar.bz2
+Source0:	http://osdn.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{tarball_version}-src.zip
 Source1:	%{name}.1.bz2
 Source2:	README.method
-Patch0:		mp3gain_tempfile_default.patch.bz2
-Patch1:		mp3gain_exit.patch.bz2
-Patch2:		mp3gain_cflags.patch.bz2
-Patch3:		mp3gain-1.4.6-fix-str-fmt.patch.bz2
+Patch0:		mp3gain_tempfile_default.patch
+Patch2:		mp3gain_cflags.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 	
 
@@ -32,27 +30,25 @@ and re-encoding.
 
 
 %prep
-%setup -q -n %{name}-%{tarball_version}-src
+%setup -q -c %{name}-%{tarball_version}-src
 %patch0 -p1 -b .tempfile
-%patch1 -p1 -b .exit
 %patch2 -p1 -b .cflags
-%patch3 -p1 -b .strfmt
 install -p -m 644 %{SOURCE2} .
 %{__sed} -i 's/\r//' lgpl.txt
 
 
 %build
-make %{?_smp_mflags}
+%make
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-install -Dp -m 755 %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
-install -Dp -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_mandir}/man1/%{name}.1.bz2
+rm -rf %{buildroot}
+install -Dp -m 755 %{name} %{buildroot}%{_bindir}/%{name}
+install -Dp -m 644 %{SOURCE1} %{buildroot}%{_mandir}/man1/%{name}.1.bz2
 
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 
 %files
