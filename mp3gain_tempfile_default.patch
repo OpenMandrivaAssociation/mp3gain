@@ -1,0 +1,93 @@
+--- mp3gain-1_5_2_r2-src/mp3gain.c.orig	2010-05-19 06:48:34.000000000 +0300
++++ mp3gain-1_5_2_r2-src/mp3gain.c	2010-08-07 07:45:10.739715092 +0300
+@@ -45,6 +45,10 @@
+  *  So have fun dissecting.
+  */
+ 
++/* stf: make   -t the default
++ * + *             -T restores old behaviour^M
++ * + */                 
++
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <math.h>
+@@ -129,7 +133,7 @@
+ 
+ int writeself = 0;
+ int QuietMode = 0;
+-int UsingTemp = 0;
++int UsingTemp = 1;
+ int NowWriting = 0;
+ double lastfreq = -1.0;
+ 
+@@ -761,6 +765,7 @@
+ 			inf = NULL;
+             passError(MP3GAIN_UNSPECIFED_ERROR, 3,
+                 "\nCan't open ", outfilename, " for temp writing\n");
++	    NowWriting = 0;
+ 			return M3G_ERR_CANT_MAKE_TMP;
+ 		} 
+  
+@@ -775,6 +780,7 @@
+ 		  fclose(outf);
+ 	  passError( MP3GAIN_UNSPECIFED_ERROR, 3,
+           "\nCan't open ", filename, " for modifying\n");
++	  NowWriting = 0;
+ 	  return M3G_ERR_CANT_MODIFY_FILE;
+   }
+   else {
+@@ -976,6 +982,7 @@
+ 		}
+ 		if (saveTime) 
+ 		  fileTime(filename, setStoredTime);		
++		NowWriting = 0;
+ 		return;
+ 	}
+ #endif
+@@ -1046,7 +1053,8 @@
+ 			passError( MP3GAIN_UNSPECIFED_ERROR, 3,
+                 "Not enough temp space on disk to modify ", filename, 
+                 "\nEither free some space, or do not use \"temp file\" option\n");
+-            return M3G_ERR_NOT_ENOUGH_TMP_SPACE;
++            	NowWriting = 0;
++		return M3G_ERR_NOT_ENOUGH_TMP_SPACE;
+         }
+         else {
+ 
+@@ -1054,6 +1062,7 @@
+ 				deleteFile(outfilename); //try to delete tmp file
+ 				passError( MP3GAIN_UNSPECIFED_ERROR, 3,
+                     "Can't open ", filename, " for modifying\n");
++			NowWriting = 0;
+ 			    return M3G_ERR_CANT_MODIFY_FILE;
+ 		    }
+ 		    if (moveFile(outfilename, filename)) {
+@@ -1062,6 +1071,7 @@
+                     "\nThe mp3 was correctly modified, but you will need to re-name ", 
+                     outfilename, " to ", filename, 
+                     " yourself.\n");
++			NowWriting = 0;
+ 			    return M3G_ERR_RENAME_TMP;
+ 		    };
+ 		    if (saveTime)
+@@ -1328,7 +1338,7 @@
+ 		fprintf(stderr,"\t%cc - ignore clipping warning when applying gain\n",SWITCH_CHAR);
+ 		fprintf(stderr,"\t%co - output is a database-friendly tab-delimited list\n",SWITCH_CHAR);
+ 		fprintf(stderr,"\t%ct - writes modified data to temp file, then deletes original\n",SWITCH_CHAR);
+-		fprintf(stderr,"\t     instead of modifying bytes in original file\n");
++		fprintf(stderr,"\t     instead of modifying bytes in original file (default)\n");
+ #ifdef AACGAIN
+ 		fprintf(stderr,"\t     A temp file is always used for AAC files.\n");
+ #endif
+@@ -1675,8 +1685,10 @@
+                     break;
+ 
+ 				case 't':
++		    			UsingTemp = !0;
++					break;
+ 				case 'T':
+-					UsingTemp = !0;
++					UsingTemp = 0;
+ 					break;
+ 
+ 				case 'u':
