@@ -9,7 +9,7 @@ Release:	%release
 Summary:	Lossless MP3 volume adjustment tool
 
 Group:		Sound
-License:	LGPLv2+
+License:	LGPL
 URL:		http://mp3gain.sourceforge.net
 Source0:	http://osdn.dl.sourceforge.net/sourceforge/%{name}/%{name}-%{tarball_version}-src.zip
 Source1:	%{name}.1.bz2
@@ -56,3 +56,50 @@ rm -rf %{buildroot}
 %doc lgpl.txt README.method
 %{_bindir}/%{name}
 %{_mandir}/man1/*
+
+
+%changelog
+* Sat Aug 07 2010 Ahmad Samir <ahmadsamir@mandriva.org> 1.5.2-1mdv2011.0
++ Revision: 567270
+- update to 1.5.2
+- unpack the patches
+- rediff patches 0,2
+- drop patch1, fixed upstream
+- drop patch3, not needed any more
+
+* Mon May 18 2009 Jérôme Brenier <incubusss@mandriva.org> 1.4.6-4mdv2010.0
++ Revision: 377397
+- add a patch to fix str fmt
+
+* Tue Jul 29 2008 Thierry Vignaud <tv@mandriva.org> 1.4.6-3mdv2009.0
++ Revision: 252943
+- rebuild
+
+* Fri Dec 21 2007 Olivier Blin <oblin@mandriva.com> 1.4.6-1mdv2008.1
++ Revision: 136608
+- restore BuildRoot
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Sat May 05 2007 Lenny Cartier <lenny@mandriva.org> 1.4.6-1mdv2008.0
++ Revision: 22608
+- Import mp3gain
+
+
+
+
+* Fri May 04 2007 Lenny Cartier <lenny@mandriva.com> 1.4.6-1mdv2008.0
+- stole rpm from fedora
+
+* Tue Nov 28 2006 Brian Pepple <bpepple@fedoraproject.org> - 1.4.6-4
+- Bump.
+
+* Sun Nov 26 2006 Brian Pepple <bpepple@fedoraproject.org> - 1.4.6-3
+- D'Oh! Add HAVE_MEMCPY back to cflag patch.
+
+* Sun Nov 26 2006 Brian Pepple <bpepple@fedoraproject.org> - 1.4.6-2
+- Update cflags patch to use RPM_OPT_FLAGS.
+
+* Mon Nov 20 2006 Brian Pepple <bpepple@fedoraproject.org> - 1.4.6-1
+- Initial Livna spec.
