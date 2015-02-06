@@ -1,5 +1,5 @@
 %define name mp3gain
-%define release %mkrel 1
+%define release 2
 %define version 1.5.2
 %define tarball_version 1_5_2_r2
 
